@@ -9,6 +9,10 @@ interface StudentCriterion {
   boolean test(Student s);
 }
 
+interface Silly {
+  boolean daft(Student s);
+}
+
 public class School {
   public static List<Student> filter(Iterable<Student> in, StudentCriterion crit) {
     List<Student> rv = new ArrayList<>();
@@ -76,5 +80,12 @@ public class School {
     showAll(filter(roster, Student.getSmartCriterion()));
     System.out.println("Enthusiastic:");
     showAll(filter(roster, Student.getEnthusiasticCriterion()));
+
+    Student sheila = roster.get(1);
+    boolean b = ((StudentCriterion)(s -> s.getName().length() > 4)).test(sheila)  ;
+    System.out.println("Sheila is smart? " + b);
+
+    System.out.println("Long names:");
+    showAll(filter(roster, s -> s.getName().length() > 4));
   }
 }

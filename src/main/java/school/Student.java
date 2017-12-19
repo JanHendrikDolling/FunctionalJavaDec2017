@@ -56,19 +56,20 @@ public final class Student {
             + '}';
     }
 
-    private static final StudentCriterion smartCriterion = new SmartCriterion();
+//    private static final StudentCriterion smartCriterion = new SmartCriterion();
+    private static final StudentCriterion smartCriterion = s -> s.getGpa() > 3.0F;
 
     public static StudentCriterion getSmartCriterion() {
       return smartCriterion;
     }
 
-    private static class SmartCriterion implements StudentCriterion {
-      @Override
-      public boolean test(Student s) {
-        return s.getGpa() > 3.0F;
-      }
-    }
-
+//    private static class SmartCriterion implements StudentCriterion {
+//      @Override
+//      public boolean test(Student s) {
+//        return s.getGpa() > 3.0F;
+//      }
+//    }
+//
     public static StudentCriterion getEnthusiasticCriterion() {
       return s -> s.getCourses().size() > 3;
     }
