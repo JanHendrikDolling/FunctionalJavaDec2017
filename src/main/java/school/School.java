@@ -2,21 +2,7 @@ package school;
 
 import java.util.*;
 
-@FunctionalInterface
-interface StudentCriterion {
-  boolean test(Student s);
-//  void doStuff();
-}
-
-interface Silly {
-  boolean daft(Student s);
-}
-
 public class School {
-
-  public static StudentCriterion negate(StudentCriterion crit) {
-    return s -> !crit.test(s);
-  }
 
   public static StudentCriterion moreThan(Comparator<Student> comp, Student reference) {
     return s -> comp.compare(reference, s) < 0;
@@ -31,27 +17,6 @@ public class School {
     }
     return rv;
   }
-
-//  public static List<Student> getSmartList(Iterable<Student> in, float threshold) {
-//    List<Student> rv = new ArrayList<>();
-//    for (Student s : in) {
-//      if (s.getGpa() > threshold) {
-//        rv.add(s);
-//      }
-//    }
-//    return rv;
-//  }
-//
-//  public static List<Student> getEnthusiasticList(Iterable<Student> in, int threshold) {
-//    List<Student> rv = new ArrayList<>();
-//    for (Student s : in) {
-//      if (s.getCourses().size() > threshold) {
-//        rv.add(s);
-//      }
-//    }
-//    return rv;
-//  }
-//
   public static void showAll(List<Student> in) {
     for (Student s : in) {
       System.out.println("> " + s);
@@ -75,14 +40,6 @@ public class School {
 
     System.out.println("All:");
     showAll(roster);
-//    System.out.println("Smart:");
-//    showAll(getSmartList(roster, 2.7F));
-//    System.out.println("Enthusiastic:");
-//    showAll(getEnthusiasticList(roster, 2));
-//
-//    System.out.println("Sorted By Gpa");
-//    Collections.sort(roster, new SmartnessComparator());
-//    showAll(roster);
 
     System.out.println("Smart:");
     showAll(filter(roster, Student.getSmartCriterion()));
@@ -94,7 +51,7 @@ public class School {
     System.out.println("Sheila is smart? " + b);
 
     StudentCriterion longNameCriterion = s -> s.getName().length() > 4;
-    StudentCriterion notLongNameCriterion = negate(longNameCriterion);
+    StudentCriterion notLongNameCriterion = longNameCriterion.negate();
 
     System.out.println("Long names:");
     showAll(filter(roster, longNameCriterion));
