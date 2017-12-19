@@ -73,8 +73,8 @@ public class School {
 //    showAll(roster);
 
     System.out.println("Smart:");
-    showAll(filter(roster, new Student.SmartCriterion()));
+    showAll(filter(roster, Student.getSmartCriterion()));
     System.out.println("Enthusiastic:");
-    showAll(filter(roster, new Student.EnthusiasticCriterion()));
+    showAll(filter(roster, Student.getEnthusiasticCriterion()));
   }
 }

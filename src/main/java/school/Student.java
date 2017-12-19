@@ -56,17 +56,69 @@ public final class Student {
             + '}';
     }
 
-    static class SmartCriterion implements StudentCriterion {
+    private static final StudentCriterion smartCriterion = new SmartCriterion();
+
+    public static StudentCriterion getSmartCriterion() {
+      return smartCriterion;
+    }
+
+    private static class SmartCriterion implements StudentCriterion {
       @Override
       public boolean test(Student s) {
         return s.getGpa() > 3.0F;
       }
     }
 
-    static class EnthusiasticCriterion implements StudentCriterion {
-      @Override
-      public boolean test(Student s) {
-        return s.getCourses().size() > 3;
-      }
+    public static StudentCriterion getEnthusiasticCriterion() {
+      return (Student s) -> {
+          System.out.println("lambda criterion");
+          return s.getCourses().size() > 3;
+        } ;
     }
+
+//    // deriving lambda expression v1
+//    public static StudentCriterion getEnthusiasticCriterion() {
+//      return /*new StudentCriterion() {*/
+//        /*@Override
+//        public boolean test*/(Student s) -> {
+//          System.out.println("lambda criterion");
+//          return s.getCourses().size() > 3;
+//        }
+//      /*}*/;
+//    }
+//
+//    // anonymous inner class
+//    public static StudentCriterion getEnthusiasticCriterion() {
+//      return new StudentCriterion() {
+//        @Override
+//        public boolean test(Student s) {
+//          System.out.println("anonymous inner criterion");
+//          return s.getCourses().size() > 3;
+//        }
+//      };
+//    }
+//
+//    // anonymous inner class
+//    public static StudentCriterion getEnthusiasticCriterion() {
+//      return new /*EnthusiasticCriterion();
+//
+//      private static class EnthusiasticCriterion implements*/ StudentCriterion() {
+//        @Override
+//        public boolean test(Student s) {
+//          return s.getCourses().size() > 3;
+//        }
+//      }; // add semicolon, end of return statement
+//
+//    } // end of get method...
+//
+    //    public static StudentCriterion getEnthusiasticCriterion() {
+//      return new EnthusiasticCriterion();
+//    }
+//
+//    private static class EnthusiasticCriterion implements StudentCriterion {
+//      @Override
+//      public boolean test(Student s) {
+//        return s.getCourses().size() > 3;
+//      }
+//    }
 }
