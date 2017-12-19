@@ -5,76 +5,77 @@ import java.util.List;
 
 public final class Student {
 
-    private final String name;
-    private final float gpa;
-    private final List<String> courses;
-    private final List<String> scholarships;
+  private final String name;
+  private final float gpa;
+  private final List<String> courses;
+  private final List<String> scholarships;
 
-    private Student(String name, float gpa, List<String> courses, List<String> scholarships) {
-        this.name = name;
-        this.gpa = gpa;
-        this.courses = courses;
-        this.scholarships = scholarships;
-    }
+  private Student(String name, float gpa, List<String> courses, List<String> scholarships) {
+    this.name = name;
+    this.gpa = gpa;
+    this.courses = courses;
+    this.scholarships = scholarships;
+  }
 
-    public static Student ofNameGpaCourses(
-            String name, float gpa, String... courses) {
-        return new Student(name, gpa, Arrays.asList(courses), null);
-    }
+  public static Student ofNameGpaCourses(
+      String name, float gpa, String... courses) {
+    return new Student(name, gpa, Arrays.asList(courses), null);
+  }
 
-    public static Student ofNameGpaCoursesScholarships(
-            String name, float gpa, String... courses) {
-        return new Student(name, gpa, Arrays.asList(courses),
-                Arrays.asList("Small", "Helpful"));
-    }
+  public static Student ofNameGpaCoursesScholarships(
+      String name, float gpa, String... courses) {
+    return new Student(name, gpa, Arrays.asList(courses),
+        Arrays.asList("Small", "Helpful"));
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public float getGpa() {
-        return gpa;
-    }
+  public float getGpa() {
+    return gpa;
+  }
 
-    public List<String> getCourses() {
-        return courses;
-    }
+  public List<String> getCourses() {
+    return courses;
+  }
 
-    public List<String> getscholarships() {
-        return scholarships;
-    }
+  public List<String> getscholarships() {
+    return scholarships;
+  }
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "name='" + name + '\'' +
-                ", gpa=" + gpa +
-                ", courses=" + courses +
-            (scholarships == null
-                ? ", No trunk"
-                : ", scholarships=" + scholarships)
-            + '}';
-    }
+  @Override
+  public String toString() {
+    return "Student{" +
+        "name='" + name + '\'' +
+        ", gpa=" + gpa +
+        ", courses=" + courses +
+        (scholarships == null
+            ? ", No trunk"
+            : ", scholarships=" + scholarships)
+        + '}';
+  }
 
-//    private static final StudentCriterion smartCriterion = new SmartCriterion();
-    private static final StudentCriterion smartCriterion = s -> s.getGpa() > 3.0F;
+  //    private static final StudentCriterion smartCriterion = new SmartCriterion();
+  private static final StudentCriterion smartCriterion = s -> s.getGpa() > 3.0F;
 
-    public static StudentCriterion getSmartCriterion() {
-      return smartCriterion;
-    }
+  public static StudentCriterion getSmartCriterion() {
+    return smartCriterion;
+  }
 
-//    private static class SmartCriterion implements StudentCriterion {
+  //    private static class SmartCriterion implements StudentCriterion {
 //      @Override
 //      public boolean test(Student s) {
 //        return s.getGpa() > 3.0F;
 //      }
 //    }
 //
-    public static StudentCriterion getEnthusiasticCriterion() {
-      return s -> s.getCourses().size() > 3;
-    }
+  public static StudentCriterion getEnthusiasticCriterion(final int threshold) {
+    int myThreshold = threshold + 1;
+    return s -> s.getCourses().size() > threshold;
+  }
 
-//    // deriving lambda *expression* (as distinguished from "block lambda")
+  //    // deriving lambda *expression* (as distinguished from "block lambda")
 //    public static StudentCriterion getEnthusiasticCriterion() {
 //      return /*(*//*Student*/ s/*)*/ -> /*{*/
 //          /*return*/ s.getCourses().size() > 3/*;*/
@@ -116,7 +117,7 @@ public final class Student {
 //
 //    } // end of get method...
 //
-    //    public static StudentCriterion getEnthusiasticCriterion() {
+  //    public static StudentCriterion getEnthusiasticCriterion() {
 //      return new EnthusiasticCriterion();
 //    }
 //
@@ -126,4 +127,15 @@ public final class Student {
 //        return s.getCourses().size() > 3;
 //      }
 //    }
+  private class NameLengthCriterion implements StudentCriterion {
+    private int threshold;
+    public NameLengthCriterion(int threshold) {
+      this.threshold = threshold;
+    }
+
+    @Override
+    public boolean test(Student s) {
+      return s.getName().length() > threshold;
+    }
+  }
 }

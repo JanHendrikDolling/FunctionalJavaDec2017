@@ -1,12 +1,11 @@
 package school;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
+@FunctionalInterface
 interface StudentCriterion {
   boolean test(Student s);
+//  void doStuff();
 }
 
 interface Silly {
@@ -14,6 +13,15 @@ interface Silly {
 }
 
 public class School {
+
+  public static StudentCriterion negate(StudentCriterion crit) {
+    return s -> !crit.test(s);
+  }
+
+  public static StudentCriterion moreThan(Comparator<Student> comp, Student reference) {
+    return s -> comp.compare(reference, s) < 0;
+  }
+
   public static List<Student> filter(Iterable<Student> in, StudentCriterion crit) {
     List<Student> rv = new ArrayList<>();
     for (Student s : in) {
@@ -79,13 +87,24 @@ public class School {
     System.out.println("Smart:");
     showAll(filter(roster, Student.getSmartCriterion()));
     System.out.println("Enthusiastic:");
-    showAll(filter(roster, Student.getEnthusiasticCriterion()));
+    showAll(filter(roster, Student.getEnthusiasticCriterion(3)));
 
     Student sheila = roster.get(1);
     boolean b = ((StudentCriterion)(s -> s.getName().length() > 4)).test(sheila)  ;
     System.out.println("Sheila is smart? " + b);
 
+    StudentCriterion longNameCriterion = s -> s.getName().length() > 4;
+    StudentCriterion notLongNameCriterion = negate(longNameCriterion);
+
     System.out.println("Long names:");
-    showAll(filter(roster, s -> s.getName().length() > 4));
+    showAll(filter(roster, longNameCriterion));
+
+    System.out.println("Not long names:");
+    showAll(filter(roster, notLongNameCriterion));
+
+    Student bert = roster.get(6);
+    StudentCriterion smarterThanBert = moreThan(new SmartnessComparator(), bert);
+    System.out.println("Smarter than Bert:");
+    showAll(filter(roster, smarterThanBert));
   }
 }
