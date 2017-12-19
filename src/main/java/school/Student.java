@@ -55,4 +55,18 @@ public final class Student {
                 : ", scholarships=" + scholarships)
             + '}';
     }
+
+    static class SmartCriterion implements StudentCriterion {
+      @Override
+      public boolean test(Student s) {
+        return s.getGpa() > 3.0F;
+      }
+    }
+
+    static class EnthusiasticCriterion implements StudentCriterion {
+      @Override
+      public boolean test(Student s) {
+        return s.getCourses().size() > 3;
+      }
+    }
 }

@@ -2,20 +2,44 @@ package school;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+interface StudentCriterion {
+  boolean test(Student s);
+}
+
 public class School {
-  public static List<Student> getSmartList(List<Student> in) {
+  public static List<Student> filter(Iterable<Student> in, StudentCriterion crit) {
     List<Student> rv = new ArrayList<>();
     for (Student s : in) {
-      if (s.getGpa() > 3.0F) {
+      if (crit.test(s)) {
         rv.add(s);
       }
     }
     return rv;
   }
 
-
+//  public static List<Student> getSmartList(Iterable<Student> in, float threshold) {
+//    List<Student> rv = new ArrayList<>();
+//    for (Student s : in) {
+//      if (s.getGpa() > threshold) {
+//        rv.add(s);
+//      }
+//    }
+//    return rv;
+//  }
+//
+//  public static List<Student> getEnthusiasticList(Iterable<Student> in, int threshold) {
+//    List<Student> rv = new ArrayList<>();
+//    for (Student s : in) {
+//      if (s.getCourses().size() > threshold) {
+//        rv.add(s);
+//      }
+//    }
+//    return rv;
+//  }
+//
   public static void showAll(List<Student> in) {
     for (Student s : in) {
       System.out.println("> " + s);
@@ -39,7 +63,18 @@ public class School {
 
     System.out.println("All:");
     showAll(roster);
+//    System.out.println("Smart:");
+//    showAll(getSmartList(roster, 2.7F));
+//    System.out.println("Enthusiastic:");
+//    showAll(getEnthusiasticList(roster, 2));
+//
+//    System.out.println("Sorted By Gpa");
+//    Collections.sort(roster, new SmartnessComparator());
+//    showAll(roster);
+
     System.out.println("Smart:");
-    showAll(getSmartList(roster));
+    showAll(filter(roster, new Student.SmartCriterion()));
+    System.out.println("Enthusiastic:");
+    showAll(filter(roster, new Student.EnthusiasticCriterion()));
   }
 }
