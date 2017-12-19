@@ -70,12 +70,16 @@ public final class Student {
     }
 
     public static StudentCriterion getEnthusiasticCriterion() {
-      return (Student s) -> {
-          System.out.println("lambda criterion");
-          return s.getCourses().size() > 3;
-        } ;
+      return s -> s.getCourses().size() > 3;
     }
 
+//    // deriving lambda *expression* (as distinguished from "block lambda")
+//    public static StudentCriterion getEnthusiasticCriterion() {
+//      return /*(*//*Student*/ s/*)*/ -> /*{*/
+//          /*return*/ s.getCourses().size() > 3/*;*/
+//        /*}*/ ;
+//    }
+//
 //    // deriving lambda expression v1
 //    public static StudentCriterion getEnthusiasticCriterion() {
 //      return /*new StudentCriterion() {*/
