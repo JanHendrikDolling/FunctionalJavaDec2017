@@ -2,6 +2,7 @@ package school;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 
 public final class Student {
 
@@ -57,77 +58,18 @@ public final class Student {
   }
 
   //    private static final StudentCriterion smartCriterion = new SmartCriterion();
-  private static final StudentCriterion smartCriterion = s -> s.getGpa() > 3.0F;
+  private static final Predicate<Student> smartCriterion = s -> s.getGpa() > 3.0F;
 
-  public static StudentCriterion getSmartCriterion() {
+  public static Predicate<Student> getSmartCriterion() {
     return smartCriterion;
   }
 
-  //    private static class SmartCriterion implements StudentCriterion {
-//      @Override
-//      public boolean test(Student s) {
-//        return s.getGpa() > 3.0F;
-//      }
-//    }
-//
-  public static StudentCriterion getEnthusiasticCriterion(final int threshold) {
+  public static Predicate<Student> getEnthusiasticCriterion(final int threshold) {
     int myThreshold = threshold + 1;
     return s -> s.getCourses().size() > threshold;
   }
 
-  //    // deriving lambda *expression* (as distinguished from "block lambda")
-//    public static StudentCriterion getEnthusiasticCriterion() {
-//      return /*(*//*Student*/ s/*)*/ -> /*{*/
-//          /*return*/ s.getCourses().size() > 3/*;*/
-//        /*}*/ ;
-//    }
-//
-//    // deriving lambda expression v1
-//    public static StudentCriterion getEnthusiasticCriterion() {
-//      return /*new StudentCriterion() {*/
-//        /*@Override
-//        public boolean test*/(Student s) -> {
-//          System.out.println("lambda criterion");
-//          return s.getCourses().size() > 3;
-//        }
-//      /*}*/;
-//    }
-//
-//    // anonymous inner class
-//    public static StudentCriterion getEnthusiasticCriterion() {
-//      return new StudentCriterion() {
-//        @Override
-//        public boolean test(Student s) {
-//          System.out.println("anonymous inner criterion");
-//          return s.getCourses().size() > 3;
-//        }
-//      };
-//    }
-//
-//    // anonymous inner class
-//    public static StudentCriterion getEnthusiasticCriterion() {
-//      return new /*EnthusiasticCriterion();
-//
-//      private static class EnthusiasticCriterion implements*/ StudentCriterion() {
-//        @Override
-//        public boolean test(Student s) {
-//          return s.getCourses().size() > 3;
-//        }
-//      }; // add semicolon, end of return statement
-//
-//    } // end of get method...
-//
-  //    public static StudentCriterion getEnthusiasticCriterion() {
-//      return new EnthusiasticCriterion();
-//    }
-//
-//    private static class EnthusiasticCriterion implements StudentCriterion {
-//      @Override
-//      public boolean test(Student s) {
-//        return s.getCourses().size() > 3;
-//      }
-//    }
-  private class NameLengthCriterion implements StudentCriterion {
+  private class NameLengthCriterion implements Predicate<Student> {
     private int threshold;
     public NameLengthCriterion(int threshold) {
       this.threshold = threshold;

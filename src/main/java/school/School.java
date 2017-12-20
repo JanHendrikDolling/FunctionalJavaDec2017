@@ -1,24 +1,26 @@
 package school;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class School {
 
-  public static StudentCriterion moreThan(Comparator<Student> comp, Student reference) {
+  public static <E> Predicate<E> moreThan(Comparator<E> comp, E reference) {
     return s -> comp.compare(reference, s) < 0;
   }
 
-  public static List<Student> filter(Iterable<Student> in, StudentCriterion crit) {
-    List<Student> rv = new ArrayList<>();
-    for (Student s : in) {
+  public static <E> List<E> filter(Iterable<E> in, Predicate<E> crit) {
+    List<E> rv = new ArrayList<>();
+    for (E s : in) {
       if (crit.test(s)) {
         rv.add(s);
       }
     }
     return rv;
   }
-  public static void showAll(List<Student> in) {
-    for (Student s : in) {
+
+  public static <E> void showAll(Iterable<E> in) {
+    for (E s : in) {
       System.out.println("> " + s);
     }
     System.out.println("--------------------------------------------");
@@ -47,11 +49,11 @@ public class School {
     showAll(filter(roster, Student.getEnthusiasticCriterion(3)));
 
     Student sheila = roster.get(1);
-    boolean b = ((StudentCriterion)(s -> s.getName().length() > 4)).test(sheila)  ;
+    boolean b = ((Predicate<Student>)(s -> s.getName().length() > 4)).test(sheila)  ;
     System.out.println("Sheila is smart? " + b);
 
-    StudentCriterion longNameCriterion = s -> s.getName().length() > 4;
-    StudentCriterion notLongNameCriterion = longNameCriterion.negate();
+    Predicate<Student> longNameCriterion = s -> s.getName().length() > 4;
+    Predicate<Student> notLongNameCriterion = longNameCriterion.negate();
 
     System.out.println("Long names:");
     showAll(filter(roster, longNameCriterion));
@@ -60,8 +62,12 @@ public class School {
     showAll(filter(roster, notLongNameCriterion));
 
     Student bert = roster.get(6);
-    StudentCriterion smarterThanBert = moreThan(new SmartnessComparator(), bert);
+    Predicate<Student> smarterThanBert = moreThan(new SmartnessComparator(), bert);
     System.out.println("Smarter than Bert:");
     showAll(filter(roster, smarterThanBert));
+
+    List<String> names = Arrays.asList("Fred", "Jim", "Sheila", "Algernon", "William");
+    showAll(filter(names, s -> s.length() > 4));
+
   }
 }
