@@ -116,5 +116,18 @@ public class SuperIterable<E> implements Iterable<E> {
         .distinct()
         .forEach(s -> System.out.println("> " + s));
     System.out.println("----------------------------------");
+    students.stream()
+        .filter(s -> s.getGpa() > 3.0F)
+        .flatMap(s -> s.getCourses().stream())
+        .map(s -> {
+          if (Math.random() > 0.5) {
+            throw new RuntimeException("Hahaha!");
+          }
+          return s;
+        })
+        .distinct()
+        .map(s -> String.format("> %20s", s))
+        .forEach(System.out::println);
+    System.out.println("----------------------------------");
   }
 }
